@@ -33,7 +33,7 @@ container {
 
 header {
   width: auto;
-  height: 200px;
+  height: 175px;
   background-color: rgb(242, 242, 241);
 }
 
@@ -41,18 +41,18 @@ h1 {
 	padding-top: 20px;
 	font-family: "Digital";
 	font-size: 50px;
-	line-height: .1;
+	line-height: .7;
 	letter-spacing: .1em;
 }
 
-h1 p {
+header p {
 	margin: 0;
 	padding: 0;
 }
 
 svg {
-  width: 155px;
-  height: 155px;
+  width: 170px;
+  height: 170px;
 	margin: 5px;
 	float: left;
 }
