@@ -5,11 +5,15 @@
 }
 
 @font-face {
-    font-family: "MyriadProRegular";
-    src: url("fonts/MyriadProRegular/MyriadProRegular.eot");
-    src: url("fonts/MyriadProRegular/MyriadProRegular.eot?#iefix")format("embedded-opentype"),
-    url("fonts/MyriadProRegular/MyriadProRegular.woff") format("woff"),
-    url("fonts/MyriadProRegular/MyriadProRegular.ttf") format("truetype");
+    font-family: "Digital";
+    src: url("fonts/01-digitall/01 Digitall.mtt");
+    src: url("fonts/01-digitall/01 Digitall.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Kimono";
+    src: url("fonts/nemoy/nemoy_light-webfont.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
@@ -19,11 +23,12 @@ body {
 }
 
 container {
-  width: 80%;
+  width: 798px;
 	min-height: 790px;
-  margin: auto;
+  margin: 0 auto;
   margin-top: 100px;
-  position: absolute;
+	display: block;
+	box-shadow: 0 20px 37px 4px;
 }
 
 header {
@@ -32,15 +37,24 @@ header {
   background-color: rgb(242, 242, 241);
 }
 
-logo {
-  width: 160px;
-  min-height: 160px;
-  margin: 10px 10px;
+h1 {
+	padding-top: 20px;
+	font-family: "Digital";
+	font-size: 50px;
+	line-height: .1;
+	letter-spacing: .1em;
+}
+
+h1 p {
+	margin: 0;
+	padding: 0;
 }
 
 svg {
-  width: 155px
+  width: 155px;
   height: 155px;
+	margin: 5px;
+	float: left;
 }
 
 h1 {
