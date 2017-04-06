@@ -5,9 +5,9 @@ let svg = d3.select("svg"),
     angles = d3.range(0, 2 * Math.PI, Math.PI / 200);
 
 let path = svg.append("g")
-    .attr("transform", "translate(" + width  + "," + height  + ") scale(0.35)")
+    .attr("transform", "translate(" + width  + "," + height  + ") scale(0.22)")
     .attr("fill", "none")
-    .attr("stroke-width", 4)
+    .attr("stroke-width", 30)
     .attr("stroke-linejoin", "round")
   .selectAll("path")
   .data(["cyan", "magenta", "yellow"])
