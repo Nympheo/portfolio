@@ -97,22 +97,28 @@ const CONTAINER_W = parseFloat(d3.select('container').style('width'));
 
 //***********linear graphics********//
 (function(){
-  const data =  [...new Array(18)]
-    .map(() => Math.round(Math.random() * 100));
-  const dataX = ['rus', 'bel', 'gbr', 'ger', 'fra', 'ita', 'spa', 'usa', 'swe',
-                 'chi', 'jap', 'kor', 'ind', 'bra', 'net', 'nor', 'can', 'arg'];
-
-  const margin = {top: 10, right: 20, bottom: 30, left: 20},
+  const data = d3.range(20).map((e) => {
+    return {
+      x: Number(e),
+      y: +Math.round((Math.random() * 100) + 1)
+    }
+  });
+  const margin = {top: 10, right: 20, bottom: 20, left: 20},
     width = CONTAINER_W / 4 - margin.left - margin.right,
     height = CONTAINER_W / 8 - margin.top - margin.bottom;
 
-  const x = d3.scaleBand()
-      .domain(dataX)
-      .range([0, width]);
+  const x = d3.scaleTime()
+      .range([0, width])
+      .domain([0, data.length]);
 
   const y = d3.scaleLinear()
-      .domain([0, d3.max(data)])
-      .range([height, 0]);
+      .rangeRound([height, 0])
+      .domain([0, d3.max(data, function(d) {return d.y})]);
+
+ const line = d3.line()
+      .x(function(d) {return x(d.x)})
+      .y(function(d) {return y(d.y)})
+      .curve(d3.curveBasis)
 
   const svg = d3.select("#columnChild56854").append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -124,34 +130,22 @@ const CONTAINER_W = parseFloat(d3.select('container').style('width'));
   svg.append("g")
       .attr("class", "axis axis--x")
       .attr("transform", "translate(1," + height + ")")
-      .call(d3.axisBottom(x));
+      .call(d3.axisBottom(x).ticks(10));
 
   svg.append("g")
       .attr("class", "axis axis--y")
       .attr("transform", "translate(1,0)")
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y).ticks(5))
+    .select(".domain")
+      .remove();
 
-  const barWidth = (width / data.length);
-  const bar = svg.selectAll(".bar")
-      .data(data)
-    .enter().append("g")
-      .attr("class", "bar")
-      .attr("transform",function(d,i) { return `translate(${i*barWidth+1},0)`});
-
-  bar.append("rect")
-      .attr('class', 'bar')
-      .attr("x", 0)
-      .attr("y",d => y(d))
-      .attr("width", barWidth - 1)
-      .attr("height", (d) => height - y(d))
-      .attr('fill', 'rgb(162, 109, 125)');
-
-
-  bar.append("text")
-      .attr("dy", ".5em")
-      .attr("y", d => y(d) - 10  )
-      .attr("x", barWidth / 2)
-      .attr("text-anchor", "middle")
-      .attr('class', 'text')
-      .text(d => d);
+  svg.append('path')
+     .datum(data)
+     .attr('fill', 'none')
+     .attr('stroke', 'black')
+     .attr('stroke-width', 1)
+     .attr('stroke-linejoin', 'round')
+     .attr('stroke-linecap', 'round')
+     .attr('stroke-dasharray', '5 2')
+     .attr('d', line);
 })();
