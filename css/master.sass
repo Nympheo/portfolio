@@ -1,0 +1,215 @@
+*
+	box-sizing: border-box
+
+@font-face
+	font-family: "Roboto"
+	src: url("../fonts/Roboto/Roboto-Regular.ttf") format("truetype")
+	font-style: normal
+	font-weight: normal
+
+@font-face
+	font-family: "Digital"
+	src: url("../fonts/01-digitall/01 Digitall.mtt")
+	src: url("../fonts/01-digitall/01 Digitall.ttf") format("truetype")
+	font-style: normal
+	font-weight: normal
+
+body
+	background-image: url("../img/classy_fabric_@2X.png")
+	font-family: 'Roboto'
+
+$width: 1224px
+
+container
+	width: $width
+	height: auto
+	margin: 0 auto
+	margin-top: 100px
+	display: block
+	box-shadow: 0 20px 37px 4px
+
+/*-------------header---------------*/
+header
+	width: auto
+	height: 190px
+	background-color: rgb(242, 242, 241)
+	font-size: .8em
+	position: relative
+	background-color: white
+	padding-left: 100px
+
+h1
+	margin: 10px 10px
+	padding-top: 20px
+	font-family: "Digital"
+	font-size: 55px
+	line-height: .7
+	letter-spacing: .1em
+
+#visualize
+	padding-left: 188px
+	margin-top: 33px
+
+#supervise
+	/*margin-top: 1px*/
+	padding-left: 161px
+	left: -56px
+
+#closer
+	width: 70px
+	height: 71px
+	background-color: white
+	position: absolute
+	left: 218px
+	top: 56px
+
+header p
+	position: relative
+	margin: 0
+	left: -49px
+	top: 1px
+	padding: 0
+
+#logo
+	width: 170px
+	height: 170px
+	margin: 0
+	padding: 0
+	padding-left: 35px
+	float: left
+
+/*-------------content---------------*/
+section
+	width: 100%
+	height: $width / 2
+	background-image: url('../img/graphy_@2X.png')
+	background-size: 102.9px
+	background-blend-mode: overlay
+
+#flexContainer
+	position: absolute
+
+#flexContainer div
+	min-height: 50px
+	min-width: 50px
+	/*outline: 1px solid hsla(200,100%,90%,0.2)*/
+	background-color: hsla(-100,23%,63%,0.1)
+
+.rowParent, .columnParent
+	display: flex
+	-webkit-box-direction: normal
+	-webkit-box-orient: horizontal
+	flex-direction: row
+	flex-wrap: nowrap
+	-webkit-box-pack: start
+	justify-content: flex-start
+	align-content: stretch
+	-webkit-box-align: stretch
+	align-items: stretch
+
+.columnParent
+	-webkit-box-orient: vertical
+	-webkit-flex-direction: column
+	flex-direction: column
+
+.flexChild
+	-webkit-box-flex: 1
+	/*flex: 1*/   flex: 1
+	align-self: auto
+
+.svgs
+	fill-opacity: .8
+
+.test1
+	width: $width / 2
+	height: $width / 2
+	background-color: blue
+	/*background-image: url('img/gif/graf1.gif')*/
+
+.test2
+	width: $width / 2
+	height: $width / 4
+	background-color: red
+
+.test3
+	width: $width / 4
+	height: $width / 4
+	background-color: green
+
+.test4
+	width: $width / 4
+	height: $width / 8
+	background-color: orange
+
+.test5
+	width: $width / 8
+	height: $width / 8
+	background-color: teal
+
+.test6
+	width: $width / 8
+	height: $width / 16
+	background-color: yellow
+
+.test7
+	width: $width / 16
+	height: $width / 16
+	background-color: purple
+
+.test8
+	width: $width / 16
+	height: $width / 16
+	background-color: skyblue
+
+footer
+	width: auto
+	height: 25px
+	background-color: rgb(242, 242, 241)
+
+/*------------------footer-------------------------*/
+.nav ul
+	list-style: none
+	text-align: right
+	padding: 3px
+	margin: 0
+
+.nav li
+	font-family: 'Roboto', sans-serif
+	font-size: .8em
+	line-height: 15px
+	border-bottom: 1px solid #888
+
+.nav a
+	text-decoration: none
+	display: block
+
+.nav a:hover
+
+.nav a.active
+
+.nav li
+	display: inline-block
+	margin-right: -4px
+
+/*------------------animations---------------------*/
+
+// /*.text-pop-up-top
+// 	-webkit-animation: text-pop-up-top 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
+// 	-moz-animation: text-pop-up-top 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
+// 	animation: text-pop-up-top 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both
+//
+//
+// @keyframes text-pop-up-top
+//   0%
+//     -webkit-transform: translateY(0)
+//             transform: translateY(0)
+//     -webkit-transform-origin: 50% 50%
+//             transform-origin: 50% 50%
+//     text-shadow: none
+//
+//   100%
+//     -webkit-transform: translateY(-10px)
+//             transform: translateY(-10px)
+//     -webkit-transform-origin: 50% 50%
+//             transform-origin: 50% 50%
+//     text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0.3)
