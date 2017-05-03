@@ -38,25 +38,49 @@ const CONTAINER_W = parseFloat(d3.select('container').style('width'));
   const data = d3.range(20).map((e) => {
     return {
       x: e ,
-      y: +Math.round((Math.random() * 100) + 1),
+      y: Math.round((Math.random() * 90 ) + 5),
     }
   });
+
+  const dataArea = d3.range(200).reduce((acc, e) => {
+    return [...acc,{
+      x: ++e,
+      y: acc[acc.length-1].y < 0 ?
+          acc[acc.length-1].y  + Math.round((Math.random() * 10) + 5 )
+        : acc[acc.length-1].y  + Math.round((Math.random() * 10) - 5 )
+    }]
+  }, [{x:0, y:20}] );
+
   const margin = {top: 10, right: 10, bottom: 20, left: 20},
     width = CONTAINER_W / 2 - margin.left - margin.right,
     height = CONTAINER_W / 4 - margin.top - margin.bottom;
 
   const x = d3.scaleLinear()
       .range([0, width])
-      .domain([0, data.length]);
+      .domain([0, data.length - 1]);
+
+  const xA = d3.scaleLinear()
+      .range([0, width])
+      .domain([0, dataArea.length]);
 
   const y = d3.scaleLinear()
       .rangeRound([height, 0])
-      .domain([0, d3.max(data, function(d) {return d.y})]);
+      .domain([0, 100]);
 
  const line = d3.line()
       .x(function(d) {return x(d.x)})
       .y(function(d) {return y(d.y)})
-      .curve(d3.curveBasis)
+      .curve(d3.curveBasis);
+
+const line2 = d3.line()
+    .x(function(d) {return x(d.x)})
+    .y(function(d) {return y(d.y)})
+    .curve(d3.curveCardinal);
+
+const area = d3.area()
+      .x(d => xA(d.x))
+      .y1(d => y(d.y))
+      .y0(y(0));
 
   const svg = d3.select("#columnChild57695").append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -68,7 +92,7 @@ const CONTAINER_W = parseFloat(d3.select('container').style('width'));
   const axisX = svg.append("g")
       .attr("class", "axis axis--x")
       .attr("transform", "translate(1," + height + ")")
-      .call(d3.axisBottom(x).ticks(20));
+      .call(d3.axisBottom(x).ticks(18));
 
   const axisY = svg.append("g")
       .attr("class", "axis axis--y")
@@ -89,20 +113,47 @@ const CONTAINER_W = parseFloat(d3.select('container').style('width'));
         .attr("stroke", "#777")
         .attr("stroke-dasharray", "2,2");
 
+svg.append('path')
+   .datum(dataArea)
+   .attr('fill', 'rgb(162, 109, 125)')
+   .attr('fill-opacity', 0.4)
+   .attr('d', area);
+
   svg.append('path')
      .datum(data)
      .attr('fill', 'none')
-     .attr('stroke', 'black')
+     .attr('stroke', 'red')
      .attr('stroke-width', 1)
      .attr('stroke-linejoin', 'round')
      .attr('stroke-linecap', 'round')
      .attr('d', line);
+
+ svg.append('path')
+    .datum(data)
+    .attr('fill', 'none')
+    .attr('stroke', 'steelblue')
+    .attr('stroke-width', 1)
+    .attr('stroke-linejoin', 'round')
+    .attr('stroke-linecap', 'round')
+    .attr('stroke-dasharray', '1, 1')
+    .attr('d', line2);
+
+svg.selectAll('circle')
+   .data(data)
+   .enter()
+   .append('circle')
+   .attr('cx', d => x(d.x))
+   .attr('cy', d => y(d.y))
+   .attr('r', 3)
+   .attr('fill', 'white')
+   .attr('stroke', 'black')
+   .attr('stroke-width', '1');
 })();
 
 //************HISTOGRAMM*********//
 (function(){
   const data =  [...new Array(14)]
-    .map(() => Math.round(Math.random() * 100));
+    .map(() => Math.round(Math.random() * 90 + 5));
   const dataX = ['rus', 'gbr', 'ger', 'fra', 'ita', 'spa',
   'usa', 'swe', 'chi', 'jap', 'kor', 'nor', 'can', 'arg'];
 
