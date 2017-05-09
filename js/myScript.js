@@ -299,11 +299,22 @@ svg.append("g")
                    'rgb(226, 93, 93)', 'rgb(142, 74, 74)', 'rgb(213, 68, 43)',
                   'rgb(195, 34, 126)'];
 
- const pieGen = d3.pie();
- const arcData = pieGen(data);
+const data2 = d3.range(7).map((d,i) => {
+  return {
+    name: names[i],
+    value: Math.floor(Math.random() * 30),
+    color: colors[i]
+  }
+});
+
+ const pieGen = d3.pie()
+                  .value(d => d.value)
+                  .sort((a, b) => a.name.localeCompare(b.name));
+
+ const arcData = pieGen(data2);
 
  const arcGen = d3.arc()
-                  .innerRadius((width / 2 - margin.right - margin.left) / 7)
+                  .innerRadius((width / 2 - margin.right - margin.left) / 3)
                   .outerRadius(width / 2);
 
 svg.selectAll('path')
@@ -312,12 +323,24 @@ svg.selectAll('path')
    .append('path')
    .attr('d', arcGen)
    .attr('fill', (d,i) => colors[i])
-   .attr('stroke', 'white');
+   .attr('stroke', 'rgba(250, 250, 250, 0)');
 
-svg.selectAll('path')
+svg.selectAll('text')
     .append('text')
-    .data(data)
-    .text(d => d);
+    .data(arcData)
+    .enter()
+      .append('text')
+      .each(function(d) {
+        let centroid = arcGen.centroid(d);
+        d3.select(this)
+          .attr('x', centroid[0])
+          .attr('y', centroid[1])
+          .attr('dy', '0.33em')
+          .attr('font-size', '10px')
+          .attr('fill', 'white')
+          .attr('text-anchor', 'middle')
+          .text(d.data.name);
+      });
 // svg.selectAll('text')
 //    .data(names)
 //    .enter()
