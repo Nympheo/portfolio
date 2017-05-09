@@ -212,3 +212,69 @@ svg.selectAll('circle')
       .attr('font-size', '13')
       .text(d => d);
 })();
+//*******************SECTION 6*****STREAMGRAPH***********
+(function(){
+  const data = [
+    {day:1, apples: 20, pear: 13, plums: 16, melon: 6, watermelon: 5},
+    {day:2, apples: 11, pear: 12, plums: 11, melon: 3, watermelon: 2},
+    {day:3, apples: 16, pear: 11, plums: 13, melon: 1, watermelon: 8},
+    {day:4, apples: 12, pear: 9, plums: 14, melon: 7, watermelon: 5},
+    {day:5, apples: 13, pear: 10, plums: 17, melon: 6, watermelon: 5},
+    {day:6, apples: 18, pear: 16, plums: 16, melon: 6, watermelon: 6},
+    {day:7, apples: 20, pear: 13, plums: 10, melon: 1, watermelon: 7},
+    {day:8, apples: 21, pear: 9, plums: 10, melon: 6, watermelon: 1},
+    {day:9, apples: 15, pear: 8, plums: 9, melon: 2, watermelon: 2},
+    {day:10, apples: 17, pear: 10, plums: 11, melon: 8, watermelon: 1},
+    {day:11, apples: 21, pear: 13, plums: 6, melon: 6, watermelon: 4},
+  ];
+
+  const margin = {top: 5, right: 5, bottom: 12, left: 10},
+    width = CONTAINER_W / 8 - margin.left - margin.right,
+    height = CONTAINER_W / 16 - margin.top - margin.bottom;
+
+  const svg = d3.select("#columnChild87285").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .attr('class','svgs')
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  const yScale = d3.scaleLinear()
+      .domain([0,100])
+      .range([height, 0]);
+
+  const xScale = d3.scaleLinear()
+      .domain([0, data.length])
+      .range([0, width + 20]);
+
+  const area = d3.area()
+    .x((d,i) => xScale(i))
+    .y0(d => d[0] - 25)
+    .y1(d => d[1])
+    .curve(d3.curveCatmullRom);
+
+  const colors = ['rgb(103, 54, 78)','rgb(242, 119, 167)','rgb(129, 36, 97)',
+                    'rgb(226, 93, 93)', 'rgb(142, 74, 74)'];
+
+  const stack = d3.stack()
+    .keys(['apples','pear','plums','melon','watermelon'])
+    .order(d3.stackOrderInsideout)
+    .offset(d3.stackOffsetWiggle);
+
+ svg.append("g")
+    .attr("class", "axis axis--x")
+    .attr("transform", "translate(-1," + height + ")")
+    .call(d3.axisBottom(xScale).ticks(5).tickSize(1));
+
+svg.append("g")
+    .attr("class", "axis axis--y")
+    .attr("transform", "translate(-1,0)")
+    .call(d3.axisLeft(yScale).ticks(0).tickSize(1));
+
+ svg.selectAll('path')
+    .data(stack(data))
+    .enter()
+    .append('path')
+    .style('fill', (d,i) => colors[i])
+    .attr('d', area);
+})()
