@@ -277,4 +277,59 @@ svg.append("g")
     .append('path')
     .style('fill', (d,i) => colors[i])
     .attr('d', area);
-})()
+})();
+//**********SECTION 5****PIE*********************
+(function(){
+  const margin = {top: 10, right: 10, bottom: 10, left: 10},
+    width = CONTAINER_W / 8 - margin.left - margin.right,
+    height = CONTAINER_W / 8 - margin.top - margin.bottom;
+
+  const svg = d3.select("#rowChild68118").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .attr('class','svgs')
+    .append("g")
+      .attr("transform", `translate(
+            ${(width + margin.right + margin.left) / 2},
+            ${(height + margin.top + margin.bottom) / 2})`);
+
+ const names = ['Alex', 'Joe', 'Nick', 'Sandra', 'Jane', 'Paul', 'Serge'];
+ const data = d3.range(7).map(e => Math.floor(Math.random() * 30));
+ const colors = ['rgb(103, 54, 78)','rgb(242, 119, 167)','rgb(129, 36, 97)',
+                   'rgb(226, 93, 93)', 'rgb(142, 74, 74)', 'rgb(213, 68, 43)',
+                  'rgb(195, 34, 126)'];
+
+ const pieGen = d3.pie();
+ const arcData = pieGen(data);
+
+ const arcGen = d3.arc()
+                  .innerRadius((width / 2 - margin.right - margin.left) / 7)
+                  .outerRadius(width / 2);
+
+svg.selectAll('path')
+   .data(arcData)
+   .enter()
+   .append('path')
+   .attr('d', arcGen)
+   .attr('fill', (d,i) => colors[i])
+   .attr('stroke', 'white');
+
+svg.selectAll('path')
+    .append('text')
+    .data(data)
+    .text(d => d);
+// svg.selectAll('text')
+//    .data(names)
+//    .enter()
+//    .append('text')
+//    .each(d => {
+//      let centroid = arcGen.centroid(d);
+//      d3.select(this)
+//      .attr('x', centroid[0])
+//      .attr('y', centroid[1])
+//      .attr('dy', '0.33em')
+//      .text(d)
+//      .attr('fill', 'white')
+//      .attr('text-anchor', 'middle');
+//    });
+})();
