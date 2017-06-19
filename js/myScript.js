@@ -278,13 +278,13 @@ svg.append("g")
     .style('fill', (d,i) => colors[i])
     .attr('d', area);
 })();
-//**********SECTION 5****PIE*********************
+//**********SECTION 7****PIE*********************
 (function(){
-  const margin = {top: 10, right: 10, bottom: 10, left: 10},
-    width = CONTAINER_W / 8 - margin.left - margin.right,
-    height = CONTAINER_W / 8 - margin.top - margin.bottom;
+  const margin = {top: 3, right: 3, bottom: 3, left: 3},
+    width = CONTAINER_W / 16 - margin.left - margin.right,
+    height = CONTAINER_W / 16 - margin.top - margin.bottom;
 
-  const svg = d3.select("#rowChild68118").append("svg")
+  const svg = d3.select("#rowChild21066").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .attr('class','svgs')
@@ -293,7 +293,7 @@ svg.append("g")
             ${(width + margin.right + margin.left) / 2},
             ${(height + margin.top + margin.bottom) / 2})`);
 
- const names = ['Alex', 'Joe', 'Nick', 'Sandra', 'Jane', 'Paul', 'Serge'];
+ const names = ['1', '2', '3', '4', '5', '6', '7'];
  const data = d3.range(7).map(e => Math.floor(Math.random() * 30));
  const colors = ['rgb(103, 54, 78)','rgb(242, 119, 167)','rgb(129, 36, 97)',
                    'rgb(226, 93, 93)', 'rgb(142, 74, 74)', 'rgb(213, 68, 43)',
@@ -337,22 +337,59 @@ svg.selectAll('text')
           .attr('y', centroid[1])
           .attr('dy', '0.33em')
           .attr('font-size', '10px')
-          .attr('fill', 'white')
+          .attr('fill', 'black')
           .attr('text-anchor', 'middle')
           .text(d.data.name);
       });
-// svg.selectAll('text')
-//    .data(names)
-//    .enter()
-//    .append('text')
-//    .each(d => {
-//      let centroid = arcGen.centroid(d);
-//      d3.select(this)
-//      .attr('x', centroid[0])
-//      .attr('y', centroid[1])
-//      .attr('dy', '0.33em')
-//      .text(d)
-//      .attr('fill', 'white')
-//      .attr('text-anchor', 'middle');
-//    });
+
+})();
+//*************SECTION 8****HEXAGONAL function*******************************//
+(function(){
+  const margin = {top: 3, right: 3, bottom: 3, left: 3},
+    width = CONTAINER_W / 16 - margin.left - margin.right,
+    height = CONTAINER_W / 16 - margin.top - margin.bottom;
+
+  const svg = d3.select("#rowChild54482").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .attr('class','svgs')
+    .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+const randomX = d3.randomNormal(width / 2, 10);
+const randomY = d3.randomNormal(height / 2, 10);
+const points = d3.range(100).map(e => [randomX(), randomY()]);
+const color = d3.scaleSequential(d3.interpolateLab("rgb(219, 204, 214)","rgb(122, 29, 77)"))
+                .domain([0, 10]);
+
+const hexbin = d3.hexbin()
+                 .radius(5)
+                 .extent([[0, 0],[width, height]]);
+
+const x = d3.scaleLinear()
+            .domain([0, width])
+            .range([0, width]);
+const y = d3.scaleLinear()
+            .domain([0, height])
+            .range([height, 0]);
+
+svg.append('clipPath')
+   .attr('id', 'clip')
+   .append('rect')
+      .attr('width', width)
+      .attr('height', height);
+console.log(hexbin);
+console.log(points);
+console.log(hexbin(points));
+svg.append('g')
+   .attr('stroke', '#000')
+   .attr('stroke-width', '0.5px')
+   .attr('clip-path', 'url(#clip)')
+   .selectAll('path')
+   .data(hexbin(points))
+   .enter().append('path')
+       .attr('d', hexbin.hexagon())
+       .attr('transform', function(d){ console.log(d);return `translate(${d.x},${d.y})` })
+       .attr('fill', d => color(d.length))
+
 })();
