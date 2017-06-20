@@ -401,12 +401,41 @@ svg.append('g')
       .attr("height", height + margin.top + margin.bottom)
       .attr('class','svgs')
     .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+      .attr("transform", `translate(${width/2},${height/2})`);
 
 const matrix = [[14632,  4312, 4123, 1234],
                 [ 590, 13465, 909, 8888],
                 [ 5123, 19765, 4564, 9443],
                 [ 312,   5086,  900, 7532]];
 
+const outerRadius = Math.min(width, height) / 2 - 40,
+      innerRadius = outerRadius - 30;
+
+const formatValue = d3.formatPrefix(',.0', 1e3);
+
+const chord = d3.chord()
+                .padAngle(0.05)
+                .sortSubgroups(d3.descending);
+
+const arc = d3.arc()
+              .innerRadius(innerRadius)
+              .outerRadius(outerRadius);
+
+const ribbon = d3.ribbon()
+                 .radius(innerRadius);
+
+const color = d3.scaleOrdinal()
+                .domain([0, 1, 2, 3])
+                .range(['rgb(103, 54, 78)', 'rgb(242, 119, 167)'
+                ,'rgb(129, 36, 97)', 'rgb(226, 93, 93)']);
+
+svg.datum(chord(matrix));
+const group = svg.append('g')
+                 .attr('class', 'groups')
+                 .selectAll('g')
+                    .data(d => d.groups)
+                    .enter().append('g');
+
+                    
 
 })();
