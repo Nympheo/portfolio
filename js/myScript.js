@@ -339,7 +339,7 @@ svg.selectAll('text')
           .attr('font-size', '10px')
           .attr('fill', 'black')
           .attr('text-anchor', 'middle')
-          .text(d.data.name);
+          .text(d.data.value);
       });
 
 })();
@@ -378,9 +378,7 @@ svg.append('clipPath')
    .append('rect')
       .attr('width', width)
       .attr('height', height);
-console.log(hexbin);
-console.log(points);
-console.log(hexbin(points));
+
 svg.append('g')
    .attr('stroke', '#000')
    .attr('stroke-width', '0.5px')
@@ -389,7 +387,26 @@ svg.append('g')
    .data(hexbin(points))
    .enter().append('path')
        .attr('d', hexbin.hexagon())
-       .attr('transform', function(d){ console.log(d);return `translate(${d.x},${d.y})` })
+       .attr('transform', function(d){ ;return `translate(${d.x},${d.y})` })
        .attr('fill', d => color(d.length))
+})();
+//***************SECTION 3************CHORD DIAGRAM***************************//
+(function(){
+  const margin = {top: 10, right: 10, bottom: 10, left: 10},
+    width = CONTAINER_W / 4 - margin.left - margin.right,
+    height = CONTAINER_W / 4 - margin.top - margin.bottom;
+
+  const svg = d3.select("#rowChild46489").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .attr('class','svgs')
+    .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+const matrix = [[14632,  4312, 4123, 1234],
+                [ 590, 13465, 909, 8888],
+                [ 5123, 19765, 4564, 9443],
+                [ 312,   5086,  900, 7532]];
+
 
 })();
