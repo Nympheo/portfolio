@@ -392,7 +392,7 @@ svg.append('g')
 })();
 //***************SECTION 3************CHORD DIAGRAM***************************//
 (function(){
-  const margin = {top: 10, right: 10, bottom: 10, left: 10},
+  const margin = {top: 5, right: 0, bottom: 5, left: 0},
     width = CONTAINER_W / 4 - margin.left - margin.right,
     height = CONTAINER_W / 4 - margin.top - margin.bottom;
 
@@ -408,13 +408,13 @@ const matrix = [[14632,  4312, 4123, 1234],
                 [ 5123, 19765, 4564, 9443],
                 [ 312,   5086,  900, 7532]];
 
-const outerRadius = Math.min(width, height) / 2 - 40,
+const outerRadius = Math.min(width, height) / 2 - 10,
       innerRadius = outerRadius - 30;
 
 const formatValue = d3.formatPrefix(',.0', 1e3);
 
 const chord = d3.chord()
-                .padAngle(0.05)
+                .padAngle(0.04)
                 .sortSubgroups(d3.descending);
 
 const arc = d3.arc()
@@ -436,6 +436,45 @@ const group = svg.append('g')
                     .data(d => d.groups)
                     .enter().append('g');
 
-                    
+group.append('path')
+     .style('fill', d => color(d.index))
+     .style('stroke', d => d3.rgb(color(d.index)).darker())
+     .attr('d', arc);
+
+const ticks = group.selectAll('.tick')
+      .data(d => tickFunc(d, 1000))
+      .enter().append('g')
+        .attr('stroke', '#000')
+        .attr('transform', function(d){
+            return `rotate(${d.angle * 180 / Math.PI - 90})
+                    translate(${outerRadius}, 0)`});
+
+ticks.append('line').attr('x2', 2);
+
+ticks.filter(d => d.value % 5000 === 0)
+     .append('text')
+     .attr('x', 7)
+     .attr('dy', '.35em')
+     .attr('font-size', '.44em')
+     .attr('transform', function(d){
+       return d.angle > Math.PI ? `rotate(180) translate(-16)` : null;})
+     .style('text-anchor', d => d.angle > Math.PI ? 'end' : null)
+     .text(d => formatValue(d.value));
+
+svg.append('g')
+   .attr('fill-opacity', 0.7)
+   .selectAll('path')
+   .data(d => d)
+   .enter().append('path')
+      .attr('d', ribbon)
+      .style('fill', d => d.target.index)
+      .style('stroke', d => d3.rgb(color(d.target.index)).darker());
+
+function tickFunc(d, step) {
+   let i = (d.endAngle - d.startAngle) / d.value;
+   return d3.range(0, d.value, step).map(function(e)
+     {return {value: e, angle: e * i + d.startAngle}})
+};
+
 
 })();
