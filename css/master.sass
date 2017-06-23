@@ -81,7 +81,7 @@ header p
 /*-------------content---------------*/
 section
 	width: 100%
-	height: $width / 2
+	height: ($width / 2) + 4
 	background-image: url('../img/graphy_@2X.png')
 	background-size: 102.9px
 	background-blend-mode: overlay
@@ -93,7 +93,7 @@ section
 	min-height: 50px
 	min-width: 50px
 	/*outline: 1px solid hsla(200,100%,90%,0.2)*/
-	background-color: hsla(-100,23%,63%,0.1)
+	background-color: hsla(-100,23%,63%,0.09)
 
 .rowParent, .columnParent
 	display: flex
@@ -118,7 +118,7 @@ section
 	align-self: auto
 
 .svgs
-	fill-opacity: .8
+	fill-opacity: .9
 
 .test1
 	width: $width / 2
@@ -161,12 +161,13 @@ section
 	height: $width / 16
 	background-color: skyblue
 
+/*------------------footer-------------------------*/
+
 footer
 	width: auto
 	height: 25px
 	background-color: rgb(242, 242, 241)
 
-/*------------------footer-------------------------*/
 .nav ul
 	list-style: none
 	text-align: right
