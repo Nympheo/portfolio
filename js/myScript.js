@@ -36,14 +36,14 @@ const colors = ['#F40000', '#FCA311','#EDF2F4','#8D99AE', '#2D2F49'];
 });})();
 //********SECTION 2***linear graphics********//
 (function(){
-  const data = d3.range(20).map((e) => {
+  let data = d3.range(20).map((e) => {
     return {
       x: e ,
       y: Math.round((Math.random() * 90 ) + 5),
     }
   });
 
-  const dataArea = d3.range(200).reduce((acc, e) => {
+  let dataArea = d3.range(200).reduce((acc, e) => {
     return [...acc,{
       x: ++e,
       y: acc[acc.length-1].y < 0 ?
@@ -68,22 +68,22 @@ const colors = ['#F40000', '#FCA311','#EDF2F4','#8D99AE', '#2D2F49'];
       .rangeRound([height, 0])
       .domain([0, 100]);
 
- const line = d3.line()
+ let line = d3.line()
       .x(function(d) {return x(d.x)})
       .y(function(d) {return y(d.y)})
       .curve(d3.curveBasis);
 
-const line2 = d3.line()
+let line2 = d3.line()
     .x(function(d) {return x(d.x)})
     .y(function(d) {return y(d.y)})
     .curve(d3.curveCardinal);
 
-const area = d3.area()
+let area = d3.area()
       .x(d => xA(d.x))
       .y1(d => y(d.y))
       .y0(y(0));
 
-  const svg = d3.select("#columnChild57695").append("svg")
+  let svg = d3.select("#columnChild57695").append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .attr('class','svgs')
@@ -114,32 +114,32 @@ const area = d3.area()
         .attr("stroke", "#777")
         .attr("stroke-dasharray", "2,2");
 
-svg.append('path')
-   .datum(dataArea)
-   .attr('fill', colors[4])
-   .attr('fill-opacity', 0.4)
-   .attr('d', area);
+let areaLayout = svg.append('path')
+               .datum(dataArea)
+               .attr('fill', colors[4])
+               .attr('fill-opacity', 0.4)
+               .attr('d', area);
 
-  svg.append('path')
-     .datum(data)
-     .attr('fill', 'none')
-     .attr('stroke', colors[0])
-     .attr('stroke-width', 1)
-     .attr('stroke-linejoin', 'round')
-     .attr('stroke-linecap', 'round')
-     .attr('d', line);
+let red = svg.append('path')
+             .datum(data)
+             .attr('fill', 'none')
+             .attr('stroke', colors[0])
+             .attr('stroke-width', 1)
+             .attr('stroke-linejoin', 'round')
+             .attr('stroke-linecap', 'round')
+             .attr('d', line);
 
- svg.append('path')
-    .datum(data)
-    .attr('fill', 'none')
-    .attr('stroke', colors[1])
-    .attr('stroke-width', 1)
-    .attr('stroke-linejoin', 'round')
-    .attr('stroke-linecap', 'round')
-    .attr('stroke-dasharray', '1, 1')
-    .attr('d', line2);
+let yellow = svg.append('path')
+                .datum(data)
+                .attr('fill', 'none')
+                .attr('stroke', colors[1])
+                .attr('stroke-width', 1)
+                .attr('stroke-linejoin', 'round')
+                .attr('stroke-linecap', 'round')
+                .attr('stroke-dasharray', '1, 1')
+                .attr('d', line2);
 
-svg.selectAll('circle')
+let circles = svg.selectAll('circle')
    .data(data)
    .enter()
    .append('circle')
@@ -149,11 +149,54 @@ svg.selectAll('circle')
    .attr('fill', 'white')
    .attr('stroke', 'black')
    .attr('stroke-width', '1');
+
+svg.on('click', function(){
+  data = d3.range(20).map((e) => {
+    return {
+      x: e ,
+      y: Math.round((Math.random() * 90 ) + 5),
+    }
+  });
+
+  dataArea = d3.range(200).reduce((acc, e) => {
+    return [...acc,{
+      x: ++e,
+      y: acc[acc.length-1].y < 0 ?
+          acc[acc.length-1].y  + Math.round((Math.random() * 10) + 5 )
+        : acc[acc.length-1].y  + Math.round((Math.random() * 10) - 5 )
+    }]
+  }, [{x:0, y:20}] );
+
+  areaLayout.datum(dataArea);
+  areaLayout.transition()
+            .duration(1000)
+           .attr('fill', colors[4])
+           .attr('fill-opacity', 0.4)
+           .attr('d', area);
+
+  red.datum(data);
+  red.transition()
+     .duration(1000)
+     .attr('d', line);
+
+  yellow.datum(data)
+  yellow.transition()
+       .duration(1000)
+       .attr('d', line2);
+
+  circles.data(data);
+  circles.transition()
+         .duration(1000)
+         .attr('cx', d => x(d.x))
+         .attr('cy', d => y(d.y));
+
+  });
+
 })();
 
 //************HISTOGRAMM*********//
 (function(){
-  const data =  [...new Array(14)]
+  let data =  [...new Array(14)]
     .map(() => Math.round(Math.random() * 90 + 5));
   const dataX = ['rus', 'gbr', 'ger', 'fra', 'ita', 'spa',
   'usa', 'swe', 'chi', 'jap', 'kor', 'nor', 'can', 'arg'];
@@ -190,19 +233,19 @@ svg.selectAll('circle')
         .tickSize(2));
 
   const barWidth = (width / data.length);
-  const bar = svg.selectAll(".bar")
+  let bar = svg.selectAll(".bar")
       .data(data)
     .enter().append("g")
       .attr("class", "bar")
       .attr("transform",function(d,i) { return `translate(${i*barWidth+1},0)`});
 
-  bar.append("rect")
-      .attr('class', 'bar')
-      .attr("x", 0)
-      .attr("y",d => y(d))
-      .attr("width", barWidth - 1)
-      .attr("height", (d) => height - y(d))
-      .attr('fill', colors[4]);
+  let rects = bar.append("rect")
+                  .attr('class', 'bar')
+                  .attr("x", 0)
+                  .attr("y",d => y(d))
+                  .attr("width", barWidth - 1)
+                  .attr("height", (d) => height - y(d))
+                  .attr('fill', colors[4]);
 
   bar.append("text")
       .attr("dy", ".5em")
@@ -212,6 +255,20 @@ svg.selectAll('circle')
       .attr('class', 'text')
       .attr('font-size', '13')
       .text(d => d);
+
+svg.on('click', function(){
+    console.log('click');
+    data =  [...new Array(14)]
+      .map(() => Math.round(Math.random() * 90 + 5));
+
+    bar.data(data);
+
+    rects.transition()
+       .duration(1000)
+       .attr('y', d => y(d))
+       .attr('height', d => height - y(d));
+})
+
 })();
 //*******************SECTION 6*****STREAMGRAPH***********
 (function(){
@@ -733,3 +790,34 @@ function click(d) {
      .selectAll('path').attrTween('d', d => () => arc(d));
    }
 })();
+
+//     ***************    HANDLERS   ******************************
+d3.selectAll('.frame')
+  .on('mouseover', function(){
+    d3.select(this)
+      .classed('frame', false)
+      .transition()
+      .duration(300)
+      .style('opacity', 1)
+      .style('background-color', 'rgba(153, 139, 182, 0.00)');
+      // .style('border', '1px groove rgba(45, 47, 73, 0.3)');
+
+    d3.selectAll('.frame')
+      .transition()
+      .duration(300)
+      .style('opacity', 0.5)
+      .style('background-color', 'rgba(0, 0, 0, 0.2)');
+
+    // d3.selectAll('.frame').selectAll('path').style('fill','rgba(0, 0, 0, 0.2)');
+    // d3.selectAll('.frame').selectAll('rect').style('fill','rgba(0, 0, 0, 0.2)');
+    // d3.selectAll('.frame').selectAll('circle').style('fill','rgba(0, 0, 0, 0.2)');
+
+    d3.select(this).classed('frame', true);
+  })
+  .on('mouseout', function(){
+    d3.selectAll('.frame')
+      .transition()
+      .duration(300)
+      .style('opacity', 1)
+      .style('background-color', 'rgba(153, 139, 182, 0.04)');
+  })
