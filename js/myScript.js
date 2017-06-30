@@ -3,6 +3,7 @@
 
 const CONTAINER_W = parseFloat(d3.select('container').style('width'));
 
+const colors = ['#F40000', '#FCA311','#EDF2F4','#8D99AE', '#2D2F49'];
 //********LOGO**********//
 (function () {
   const logo = d3.select("#logo"),
@@ -33,7 +34,7 @@ const CONTAINER_W = parseFloat(d3.select('container').style('width'));
       return d(angles);
     });
 });})();
-//***********linear graphics********//
+//********SECTION 2***linear graphics********//
 (function(){
   const data = d3.range(20).map((e) => {
     return {
@@ -115,14 +116,14 @@ const area = d3.area()
 
 svg.append('path')
    .datum(dataArea)
-   .attr('fill', 'rgb(162, 109, 125)')
+   .attr('fill', colors[4])
    .attr('fill-opacity', 0.4)
    .attr('d', area);
 
   svg.append('path')
      .datum(data)
      .attr('fill', 'none')
-     .attr('stroke', 'red')
+     .attr('stroke', colors[0])
      .attr('stroke-width', 1)
      .attr('stroke-linejoin', 'round')
      .attr('stroke-linecap', 'round')
@@ -131,7 +132,7 @@ svg.append('path')
  svg.append('path')
     .datum(data)
     .attr('fill', 'none')
-    .attr('stroke', 'steelblue')
+    .attr('stroke', colors[1])
     .attr('stroke-width', 1)
     .attr('stroke-linejoin', 'round')
     .attr('stroke-linecap', 'round')
@@ -201,7 +202,7 @@ svg.selectAll('circle')
       .attr("y",d => y(d))
       .attr("width", barWidth - 1)
       .attr("height", (d) => height - y(d))
-      .attr('fill', 'rgb(162, 109, 125)');
+      .attr('fill', colors[4]);
 
   bar.append("text")
       .attr("dy", ".5em")
@@ -215,17 +216,17 @@ svg.selectAll('circle')
 //*******************SECTION 6*****STREAMGRAPH***********
 (function(){
   const data = [
-    {day:1, apples: 20, pear: 13, plums: 16, melon: 6, watermelon: 5},
-    {day:2, apples: 11, pear: 12, plums: 11, melon: 3, watermelon: 2},
-    {day:3, apples: 16, pear: 11, plums: 13, melon: 1, watermelon: 8},
-    {day:4, apples: 12, pear: 9, plums: 14, melon: 7, watermelon: 5},
-    {day:5, apples: 13, pear: 10, plums: 17, melon: 6, watermelon: 5},
-    {day:6, apples: 18, pear: 16, plums: 16, melon: 6, watermelon: 6},
-    {day:7, apples: 20, pear: 13, plums: 10, melon: 1, watermelon: 7},
-    {day:8, apples: 21, pear: 9, plums: 10, melon: 6, watermelon: 1},
-    {day:9, apples: 15, pear: 8, plums: 9, melon: 2, watermelon: 2},
-    {day:10, apples: 17, pear: 10, plums: 11, melon: 8, watermelon: 1},
-    {day:11, apples: 21, pear: 13, plums: 6, melon: 6, watermelon: 4},
+    {day:1, apples: 10, pear: 10, plums: 6, melon: 6, watermelon: 5},
+    {day:2, apples: 7, pear: 9, plums: 4, melon: 3, watermelon: 2},
+    {day:3, apples: 6, pear: 8, plums: 7, melon: 1, watermelon: 8},
+    {day:4, apples: 6, pear: 7, plums: 7, melon: 7, watermelon: 5},
+    {day:5, apples: 5, pear: 6, plums: 7, melon: 6, watermelon: 5},
+    {day:6, apples: 10, pear: 5, plums: 8, melon: 6, watermelon: 6},
+    {day:7, apples: 9, pear: 8, plums: 10, melon: 1, watermelon: 7},
+    {day:8, apples: 11, pear: 9, plums: 10, melon: 6, watermelon: 1},
+    {day:9, apples: 11, pear: 8, plums: 9, melon: 2, watermelon: 2},
+    {day:10, apples: 6, pear: 10, plums: 11, melon: 8, watermelon: 1},
+    {day:11, apples: 8, pear: 13, plums: 6, melon: 6, watermelon: 4},
   ];
 
   const margin = {top: 5, right: 5, bottom: 12, left: 10},
@@ -240,7 +241,7 @@ svg.selectAll('circle')
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   const yScale = d3.scaleLinear()
-      .domain([0,100])
+      .domain([0,50])
       .range([height, 0]);
 
   const xScale = d3.scaleLinear()
@@ -249,12 +250,12 @@ svg.selectAll('circle')
 
   const area = d3.area()
     .x((d,i) => xScale(i))
-    .y0(d => d[0] - 25)
-    .y1(d => d[1])
+    .y0(d => d[0] )
+    .y1(d => d[1] + 16)
     .curve(d3.curveCatmullRom);
 
-  const colors = ['rgb(103, 54, 78)','rgb(242, 119, 167)','rgb(129, 36, 97)',
-                    'rgb(226, 93, 93)', 'rgb(142, 74, 74)'];
+  // const colors = ['rgb(103, 54, 78)','rgb(242, 119, 167)','rgb(129, 36, 97)',
+  //                   'rgb(226, 93, 93)', 'rgb(142, 74, 74)'];
 
   const stack = d3.stack()
     .keys(['apples','pear','plums','melon','watermelon'])
@@ -271,11 +272,14 @@ svg.append("g")
     .attr("transform", "translate(-1,0)")
     .call(d3.axisLeft(yScale).ticks(0).tickSize(1));
 
- svg.selectAll('path')
+ svg.selectAll('.path')
     .data(stack(data))
     .enter()
     .append('path')
-    .style('fill', (d,i) => colors[i])
+    .style('fill', function(d, i) {
+      // console.log(d);
+      return colors[i];
+    })
     .attr('d', area);
 })();
 //**********SECTION 7****PIE*********************
@@ -295,9 +299,12 @@ svg.append("g")
 
  const names = ['1', '2', '3', '4', '5', '6', '7'];
  const data = d3.range(7).map(e => Math.floor(Math.random() * 30));
- const colors = ['rgb(103, 54, 78)','rgb(242, 119, 167)','rgb(129, 36, 97)',
-                   'rgb(226, 93, 93)', 'rgb(142, 74, 74)', 'rgb(213, 68, 43)',
-                  'rgb(195, 34, 126)'];
+ // const colors = ['rgb(103, 54, 78)','rgb(242, 119, 167)','rgb(129, 36, 97)',
+ //                   'rgb(226, 93, 93)', 'rgb(142, 74, 74)', 'rgb(213, 68, 43)',
+ //                  'rgb(195, 34, 126)'];
+
+const colors = ['#F40000', '#FCA311','#EDF2F4','#8D99AE', '#2D2F49',
+'#878299', '#5F525C'];
 
 const data2 = d3.range(7).map((d,i) => {
   return {
@@ -379,9 +386,9 @@ const nodes = svg.selectAll('circle')
 
 nodes.append('circle')
      .attr('r', d => d.r)
-     .attr('fill', 'indianred')
+     .attr('fill', colors[3])
      .attr('opacity', 0.3)
-     .attr('stroke', 'black');
+     .attr('stroke', colors[4]);
 
 nodes.append('text')
      .attr('dy', 4)
@@ -459,10 +466,10 @@ const arc = d3.arc()
 const ribbon = d3.ribbon()
                  .radius(innerRadius);
 
-const color = d3.scaleOrdinal()
-                .domain([0, 1, 2, 3])
-                .range(['rgb(103, 54, 78)', 'rgb(242, 119, 167)'
-                ,'rgb(129, 36, 97)', 'rgb(226, 93, 93)']);
+// const color = d3.scaleOrdinal()
+//                 .domain([0, 1, 2, 3])
+//                 .range(['rgb(103, 54, 78)', 'rgb(242, 119, 167)'
+//                 ,'rgb(129, 36, 97)', 'rgb(226, 93, 93)']);
 
 svg.datum(chord(matrix));
 const group = svg.append('g')
@@ -471,8 +478,8 @@ const group = svg.append('g')
                     .enter().append('g');
 
 group.append('path')
-     .style('fill', d => color(d.index))
-     .style('stroke', d => d3.rgb(color(d.index)).darker())
+     .style('fill', d => colors[d.index + 1])
+     .style('stroke', d => d3.rgb(colors[d.index + 1]).darker())
      .attr('d', arc);
 
 const ticks = group.selectAll('.tick')
@@ -500,8 +507,8 @@ svg.append('g')
    .data(d => d)
    .enter().append('path')
       .attr('d', ribbon)
-      .style('fill', d => color(d.target.index))
-      .style('stroke', d => d3.rgb(color(d.target.index)).darker());
+      .style('fill', d => colors[d.target.index + 1])
+      // .style('stroke', d => d3.rgb(colors[d.target.index + 1]).darker());
 
 function tickFunc(d, step) {
    let i = (d.endAngle - d.startAngle) / d.value;
@@ -527,6 +534,7 @@ function tickFunc(d, step) {
     {id:'President.Finance.Payables.Staff3',value: 133},
     {id:'President.Finance.Payables.Staff4',value: 155},
     {id:'President.Finance.Payables.Staff5',value: 166},
+    {id:'President.Finance.Staff1',value: 154},
     {id:'President.Market',},
     {id:'President.Market.Market R/D', },
     {id:'President.Market.Market R/D.Staff1', value: 353},
@@ -551,6 +559,8 @@ function tickFunc(d, step) {
     {id:'President.Optns.Production.Staff7', value: 666},
     {id:'President.Optns.Production.Staff8', value: 137},
     {id:'President.Optns.Production.Staff9', value: 777},
+    {id:'President.Optns.Staff1', value: 784},
+    {id:'President.Optns.Staff2', value: 591},
     {id:'President.Optns.Delivery'},
     {id:'President.Optns.Delivery.Staff1', value: 137},
     {id:'President.Optns.Delivery.Staff2', value: 137},
@@ -584,7 +594,7 @@ const link = svg.selectAll('.link')
         .data(root.links())
         .enter().append('path')
           .attr('fill', 'none')
-          .attr('stroke', '#555')
+          .attr('stroke', colors[3])
           .attr('stroke-opacity', 0.9)
           .attr('stroke-width', '1px')
           .attr('d', d3.linkRadial()
@@ -599,7 +609,7 @@ const node = svg.selectAll('.node')
             return `translate(${radians(d.x, d.y)})`
           });
 
-node.append('circle').attr('r', 2.5).attr('fill', '#803843');
+node.append('circle').attr('r', 2.5).attr('fill', 'rgb(153, 0, 0)');
 
 node.append('text')
     .attr('dy', '0.3em')
@@ -607,7 +617,8 @@ node.append('text')
     .attr('text-anchor', d => d.x < Math.PI === !d.children ? 'start' : 'end')
     .attr('transform',d => `rotate(${(d.x<Math.PI?d.x-Math.PI/2:d.x+Math.PI/2)*180/Math.PI})`)
     .text(d => d.id.substring(d.id.lastIndexOf('.') + 1))
-    .attr('font-size', '.55em');
+    .attr('font-size', '.55em')
+    .attr('fill', colors[4]);
 
 function radians(x, y) {
   return [(y = +y) * Math.cos( x -= Math.PI / 2), y * Math.sin(x)];
@@ -642,5 +653,83 @@ function radians(x, y) {
 //     .attr('fill', 'rgb(173, 101, 114)')
 //     .attr('stroke', 'none')
 //     .attr('r', 3);
+})();
+//**********SECTION 1****SUNBURST*********************
+(function(){
+  const margin = {top: 100, right: 10, bottom: 10, left: 100},
+    width = CONTAINER_W / 2 - margin.left - margin.right,
+    height = CONTAINER_W / 2 - margin.top - margin.bottom;
 
+  const svg = d3.select("#rowChild17927").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .attr('class','svgs')
+    .append("g")
+      .attr("transform",
+        "translate(" +(width+margin.left+margin.right+50)/2+ "," + (height + margin.top + margin.bottom+50) / 2+")");
+
+const colors = d3.scaleLinear()
+                //  .interpolator(d3.interpolateRainbow)
+  .range(['#2D2F49','#EDF2F4','#8D99AE', 'rgba(255, 0, 0, 0.5)']);
+  // .domain() '#FCA311'
+
+const radius = (Math.min(width, height) / 2 + 50);
+const formatNum = d3.format(',d');
+
+const x = d3.scaleLinear()
+            .range([0, Math.PI * 2]);
+const y = d3.scaleSqrt()
+            .range([0, radius]);
+
+const partition = d3.partition();
+
+const arc = d3.arc()
+              .startAngle(d => Math.max(0, Math.min(2 * Math.PI, x(d.x0))))
+              .endAngle(d => Math.max(0, Math.min(2 * Math.PI, x(d.x1))))
+              .innerRadius(d => Math.max(0, y(d.y0)))
+              .outerRadius(d => Math.max(0, y(d.y1)));
+
+d3.json("testdata.json", function(error, root){
+  if(error) throw error;
+
+  root = d3.hierarchy(root);
+  root.sum(d => d.size);
+// console.log(root.value)
+  colors.domain([0, 50000, 100000, 300000, root.value]);
+
+  svg.selectAll('path')
+     .data(partition(root).descendants())
+     .enter().append('path')
+        .attr('d', arc)
+        .style('fill', function(d){
+          // console.log(d);
+          return colors(d.value);
+        })
+        .attr('stroke', 'rgb(171, 171, 171)')
+        .on('click', click)
+        .append('title')
+        .text(d => d.data.name + "\n" + formatNum(d.value));
+});
+
+// function clear(obj) {
+//   let max = 0;
+//   function iter(o) {
+//     o.children ? o.children.forEach(iter) : o.size > max ? max = o.size : null;
+//   }
+//   iter(obj);
+//   return max;
+// }
+
+function click(d) {
+  svg.transition()
+     .duration(700)
+     .tween('scale', function() {
+       var xd = d3.interpolate(x.domain(), [d.x0, d.x1]);
+       var yd = d3.interpolate(y.domain(), [d.y0, 1]);
+       var yr = d3.interpolate(y.range(), [d.y0 ? 15 : 0, radius - 15]);
+       return function(t){ x.domain(xd(t));
+                           y.domain(yd(t)).range(yr(t))}
+     })
+     .selectAll('path').attrTween('d', d => () => arc(d));
+   }
 })();

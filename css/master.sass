@@ -20,18 +20,11 @@ body
 
 $width: 1224px
 
-container
-	width: $width
-	height: auto
-	margin: 0 auto
-	margin-top: 100px
-	display: block
-	box-shadow: 0 20px 37px 4px
 
 /*-------------header---------------*/
 header
 	width: auto
-	height: 190px
+	height: 205px
 	background-color: rgb(242, 242, 241)
 	font-size: .8em
 	position: relative
@@ -45,6 +38,7 @@ h1
 	font-size: 55px
 	line-height: .7
 	letter-spacing: .1em
+	// color: #2D2F49
 
 #visualize
 	padding-left: 188px
@@ -79,6 +73,15 @@ header p
 	float: left
 
 /*-------------content---------------*/
+
+container
+	width: $width
+	height: auto
+	margin: 0 auto
+	margin-top: 80px
+	display: block
+	box-shadow: 0 20px 37px 4px
+
 section
 	width: 100%
 	height: ($width / 2) + 4
@@ -93,7 +96,7 @@ section
 	min-height: 50px
 	min-width: 50px
 	/*outline: 1px solid hsla(200,100%,90%,0.2)*/
-	background-color: hsla(-100,23%,63%,0.09)
+	background-color: hsla(-100,23%,63%,0.04)
 
 .rowParent, .columnParent
 	display: flex
@@ -165,14 +168,15 @@ section
 
 footer
 	width: auto
-	height: 25px
+	height: 36px
 	background-color: rgb(242, 242, 241)
 
 .nav ul
 	list-style: none
-	text-align: right
+	text-align: left
 	padding: 3px
 	margin: 0
+	margin-left: 53px
 
 .nav li
 	font-family: 'Roboto', sans-serif
