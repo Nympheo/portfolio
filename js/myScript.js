@@ -236,7 +236,6 @@ svg.on('click', function(){
   let bar = svg.selectAll(".bar")
       .data(data)
     .enter().append("g")
-      .attr("class", "bar")
       .attr("transform",function(d,i) { return `translate(${i*barWidth+1},0)`});
 
   let rects = bar.append("rect")
@@ -247,7 +246,7 @@ svg.on('click', function(){
                   .attr("height", (d) => height - y(d))
                   .attr('fill', colors[4]);
 
-  bar.append("text")
+let text =  bar.append("text")
       .attr("dy", ".5em")
       .attr("y", d => y(d) - 10 )
       .attr("x", barWidth / 2)
@@ -255,18 +254,27 @@ svg.on('click', function(){
       .attr('class', 'text')
       .attr('font-size', '13')
       .text(d => d);
-
+    console.log(bar);
 svg.on('click', function(){
     console.log('click');
     data =  [...new Array(14)]
       .map(() => Math.round(Math.random() * 90 + 5));
 
     bar.data(data);
-
+    console.log(bar);
     rects.transition()
        .duration(1000)
        .attr('y', d => y(d))
        .attr('height', d => height - y(d));
+
+    text.text('');
+    text =  bar.append("text")
+          .transition()
+          .delay(500)
+          .duration(500)
+          .attr("y", d => y(d) - 10 )
+          .text(d => d);
+
 })
 
 })();
